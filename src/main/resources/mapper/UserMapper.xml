@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wk.snow.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.wk.snow.entity.User" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, user_name, age, pass_word, sex, user_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from snow_user
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from snow_user
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wk.snow.entity.User" >
+    insert into snow_user (userId, user_name, age, 
+      pass_word, sex, user_code
+      )
+    values (#{userid,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{passWord,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wk.snow.entity.User" >
+    insert into snow_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="passWord != null" >
+        pass_word,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="passWord != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wk.snow.entity.User" >
+    update snow_user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="passWord != null" >
+        pass_word = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wk.snow.entity.User" >
+    update snow_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      pass_word = #{passWord,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      user_code = #{userCode,jdbcType=VARCHAR}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <select id="login" parameterType="com.wk.snow.entity.User" resultType="int">
+    select count(*) from snow_user
+    where user_name=#{userName} and pass_word=#{passWord}
+  </select>
+</mapper>
